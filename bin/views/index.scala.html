@@ -1,0 +1,340 @@
+@(todos:List[models.TodoList])
+
+@import models.TodoList
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<link href='@routes.Assets.versioned("css/font-awesome.css")' rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href='@routes.Assets.versioned("css/alertify.core.css")' />
+<link rel="stylesheet" href='@routes.Assets.versioned("css/alertify.default.css")' />
+
+<link href='@routes.Assets.versioned("css/bootstrap.min.css")' rel="stylesheet" type="text/css" />
+
+<link href='@routes.Assets.versioned("plugins/scroll/nanoscroller.css")' rel="stylesheet" >
+
+<link href='@routes.Assets.versioned("css/animate.css")' rel="stylesheet" type="text/css" />
+
+<link href='@routes.Assets.versioned("css/admin.css")' rel="stylesheet" type="text/css" />
+<!--  
+<link href='@routes.Assets.versioned("css/jquerysctipttop.css")' rel="stylesheet" type="text/css">
+<link href='@routes.Assets.versioned("css/font-awesome.css")' rel="stylesheet" type="text/css" />
+<link href='@routes.Assets.versioned("plugins/morris/morris.css")' rel="stylesheet" />
+<link href='@routes.Assets.versioned("plugins/kalendar/kalendar.css")' rel="stylesheet">
+
+-->
+<script src='@routes.Assets.versioned("js1/jquery-2.1.0.js")'></script>
+<title>Todo</title>
+</head>
+
+<body class="light_theme   ">
+<script src='@routes.Assets.versioned("js/alertify.min.js")'></script>
+<link rel="stylesheet" href='@routes.Assets.versioned("css/alertify.core.css")' />
+<link rel="stylesheet" href='@routes.Assets.versioned("css/alertify.default.css")' />
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"> 
+  <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script> 
+  
+  <script>
+  $(function() {
+    $( "#datepicker" ).datepicker({dateFormat: 'dd-mm-yy'});
+  });
+  </script>
+<script>
+
+function addGroups(id,name,date)
+{
+	if(id !="addnew"){ 
+	 
+	  document.getElementById("tlable").value = name;
+	  var edate=date.split("IST");
+	  document.getElementById("datepicker").value = date;
+	  document.getElementById("hid").value = id;
+	 $("#myform").attr("action", "/saveTodo");
+	}
+	else
+	{
+	$("#myform").attr("action", "/addTodo");
+	}
+	
+	 $('#myModal').modal('show');
+ 
+}
+
+
+</script>
+
+<script>
+ function checkMarkConform(id)
+{
+	alertify.confirm("Do you want to mark task as completed ?", function (e) {
+	    if (e) {
+	        
+	        markTodo(id)
+	        
+	        
+	    } else {
+	        // user clicked "cancel"
+	    }
+				});
+				
+				
+				return false;
+}
+
+function markTodo(id)
+{
+	var parameter="sql="+id;
+	$.ajax({
+	url: "@routes.Application.markTodo()", type: "GET", data: parameter,async: false, cache: false,
+	success: function (html)
+		{
+	       	  
+	       	 var ds= document.getElementById(id)
+	       	  ds.src = "/assets/images/"+html+".png";
+	       	  var sid="status"+id;
+	       	 
+	       	  if(html==="true")
+	       	  {
+	       	  document.getElementById(sid).innerHTML="Complete";
+	       	  }
+	       	  else
+	       	  {
+	       	  document.getElementById(sid).innerHTML="Pending";
+	       	  }
+	       	  //location.reload();
+	     }
+	});
+	
+}
+</script>
+<script>
+function deletConform(id) {
+
+			
+			alertify.confirm("Do you want to delete group ?", function (e) {
+    if (e) {
+        
+        deleteTodo(id)
+        
+        
+    } else {
+        // user clicked "cancel"
+    }
+			});
+			
+			
+			return false;
+		}
+	
+function deleteTodo(id)
+{
+
+	var data1="sql="+id;
+		$.ajax({
+		url: "/deleteTodo", type: "GET", data: data1,async: false, cache: false,
+		success: function (html)
+			{
+		       	  alertify.success(html);
+		       	  location.reload();
+		     }
+		});
+}
+
+/*function editGroup(id , name)
+{
+	 var xmlhttp;
+	
+	// $("#tlabel").val("welcoem text")
+	  //document.getElementById('tlabel').value = "dummy text";
+	 
+	// $('#myModal').modal('show');
+	
+	 window.location = "/edit?id="+id;
+  
+	 
+	/*alertify.prompt("Application name", function (e, str) {
+	if (e) {
+							
+		var data1="sql="+id+"&name="+str;
+		$.ajax({
+		url: "#", type: "GET", data: data1, cache: false,
+		success: function (res)
+			{
+		       	  alertify.success(res);
+		       	   location.reload();
+		     }
+		});
+		
+				} else {
+					alertify.error("You've clicked Cancel");
+				}
+			}, name);
+			return false;*/
+//}
+
+</script>
+<div class="wrapper">
+  <!--\\\\\\\ wrapper Start \\\\\\-->
+  
+ 
+  <div class="inner" style="background-color: white;>
+    <!--\\\\\\\ inner start \\\\\\-->
+   
+    <div class="contentpanel" style="background-color: white;">
+      <!--\\\\\\\ contentpanel start\\\\\\-->
+     <!--   <div class="pull-left breadcrumb_admin clear_both">
+        <div class=" page_title theme_color">
+          <h1>Home</h1>
+         
+        </div>
+        <div class="pull-right">
+          
+        </div>-->
+      </div>
+      <div class="container clear_both padding_fix">
+        <!--\\\\\\\ container  start \\\\\\-->
+   
+      
+       <div id="main-content">
+    <div class="page-content">
+      
+      
+      <div class="row">
+        <div class="col-md-12">
+          <div class="block-web" >
+           <div class="header">
+            <div class="col-lg-1" style="float:right;margin-right:-2%;"> <button class="btn btn-default btn-icon" type="button"   onclick="addGroups('addnew','','')" style="float:right">
+             Add
+            <i class="fa  fa-plus-circle"></i>
+            </button> 
+            </div> 
+            
+              <h3 class="content-header">Todo List</h3>
+             
+            </div>
+
+         <div class="porlets-content">
+            <div class="table-responsive">
+                <table  class="display table table-bordered table-striped" id="dynamic-table" >
+                  <thead>
+                    <tr>
+ 						 <th title="Sort"> Todo Name </th>
+ 						  <th title="Sort"> Creation Date </th>
+ 						   <th title="Sort"> Due Date </th>
+ 						    <th> Status </th>
+ 						  <th >Edit</th>
+ 						  <th >Delete</th>
+ 						  <th >Checked</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+         @for((todo,index) <- todos.zipWithIndex) {
+     	 <tr>
+             <td>@todo.getTodoLabel</td> 
+             <td>@todo.getCreationDate</td> 
+             <td>@todo.getDueDate</td>
+             <td id="status@todo.getId" >@if(todo.getStatus==true){Complete}else {Pending} </td> 
+              <td>
+             
+              <a href="javascript:void(0);" onClick="addGroups('@todo.getId',this.name,'@todo.getDueDate')"  name ="@todo.getTodoLabel"   title="edit ToDo"><i class="fa fa-pencil" style="font-size:26px;"></i></a>
+              </td><td>
+               <a href="javascript:void(0);" onClick= "deletConform(this.name)" name="@todo.getId" title="Delete todo item"><i class="fa fa-trash-o" style="font-size:26px;"></i></a>
+               </td>
+               <td>
+               <a href="javascript:void(0);" onClick= "checkMarkConform(this.name)"  title="Mark for check" name="@todo.getId" > @defining("images/"+todo.getStatus +".png") { chartImg =><img  id="@todo.getId" src="@routes.Assets.versioned(chartImg)"}</a>
+               </td>
+               
+               </tr>
+             
+              }     
+         
+                  </tbody>
+                </table>
+              </div><!--/table-responsive-->
+            </div><!--/porlets-content-->
+            
+            
+          </div><!--/block-web--> 
+        </div><!--/col-md-12--> 
+      </div><!--/row-->
+    
+    
+    
+     
+    
+      
+    </div><!--/page-content end--> 
+  </div><!--/main-content end--> 
+      
+      
+      </div>
+      <!--\\\\\\\ container  end \\\\\\-->
+    </div>
+    <!--\\\\\\\ content panel end \\\\\\-->
+  </div>
+  <!--\\\\\\\ inner end\\\\\\-->
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+ <form method="post"  id="myform"  action="/addTodo" class="no-margin" />
+  <div class="modal-dialog">
+    <div class="modal-content" style="width:80%; border-radius:10px;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Save TODO </h4>
+      </div>
+      <div class="modal-body" id="content">
+	 <div class="form-group">
+                <div class="form-group">
+                  <label class="control-label">Todo Label</label>
+                  <input type="text" id="tlable" name="todoLabel" parsley-trigger="change" required   class="form-control">
+                </div><!--/form-group-->
+                
+                <div class="form-group">
+                  <label class="control-label col-md-3">Due Date</label>
+                  <div class="col-md-6 col-xs-11">
+                   <!--   <div class="input-append date dpYears" data-date="1-10-2015" data-date-format="dd-mm-yyyy" data-date-viewmode="years">
+                      <input type="text" class="form-control" name="dueDate" size="30" value="12-02-2012" >
+                      <span class="input-group-btn add-on">
+                      <button type="button" class="btn btn-danger"><i class="fa fa-calendar"></i></button>
+                      </span> </div>-->
+                      <input type="text" name="dueDate" data-date-format="dd-mm-yyyy"  required   id="datepicker">
+                  
+                </div><!--/form-group--> 
+                <input type="hidden" name="hid" id="hid" value="-1">
+     </div>
+	  </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary"  >Submit</button>
+      </div>
+    </div>
+  </div>
+  </form>
+</div>
+
+
+
+<!--\\\\\\\ wrapper end\\\\\\-->
+
+
+
+
+<script src='@routes.Assets.versioned("plugins/data-tables/jquery.dataTables.js")'></script>
+<script src='@routes.Assets.versioned("plugins/scroll/jquery.nanoscroller.min.js.map")'></script>
+<script src='@routes.Assets.versioned("plugins/data-tables/DT_bootstrap.js")'></script>
+<script src='@routes.Assets.versioned("plugins/data-tables/dynamic_table_init.js")'></script>
+<script src='@routes.Assets.versioned("plugins/edit-table/edit-table.js")'></script>
+
+<script src='@routes.Assets.versioned("js1/bootstrap.min.js")'></script>
+
+
+<script src='@routes.Assets.versioned("plugins/validation/parsley.min.js")'></script>
+
+</body>
+</html>
+
+
