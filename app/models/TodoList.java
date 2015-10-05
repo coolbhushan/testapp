@@ -22,14 +22,70 @@ public class TodoList extends Model {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
+	@Column(name = "todo_label")
+	private String todoLabel;
 	
-	public String todoLabel;
-	
-	public Date creationDate;
+	@Column(name = "creation_date")
+	private Date creationDate;
 	 
-	public Date dueDate;
+	@Column(name = "due_date")
+	private Date dueDate;
 	
-	public boolean status;
+	private boolean status;
+	
+	 
+	 public Long getId() {
+		return id;
+	}
+
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+
+	public String getTodoLabel() {
+		return todoLabel;
+	}
+
+
+	public void setTodoLabel(String todoLabel) {
+		this.todoLabel = todoLabel;
+	}
+
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	
+	
+	public Date getDueDate() {
+		return dueDate;
+	}
+
+
+	public void setDueDate(Date dueDate) {
+		this.dueDate = dueDate;
+	}
+	
+
+	public boolean getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+	
+	
+	
 
 	public static Finder<Long,TodoList> find = new Finder<Long, TodoList>(Long.class, TodoList.class);
 }
