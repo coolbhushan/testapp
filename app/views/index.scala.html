@@ -55,6 +55,9 @@ function addTask(id,name,date)
 	}
 	else
 	{
+		document.getElementById("tlable").value = "";
+		 document.getElementById("datepicker").value = "";
+		  document.getElementById("hid").value = "";
 	$("#myform").attr("action", "/addTodo");
 	}
 	
