@@ -43,7 +43,7 @@
   </script>
 <script>
 
-function addGroups(id,name,date)
+function addTask(id,name,date)
 {
 	if(id !="addnew"){ 
 	 
@@ -142,38 +142,6 @@ function deleteTodo(id)
 		});
 }
 
-/*function editGroup(id , name)
-{
-	 var xmlhttp;
-	
-	// $("#tlabel").val("welcoem text")
-	  //document.getElementById('tlabel').value = "dummy text";
-	 
-	// $('#myModal').modal('show');
-	
-	 window.location = "/edit?id="+id;
-  
-	 
-	/*alertify.prompt("Application name", function (e, str) {
-	if (e) {
-							
-		var data1="sql="+id+"&name="+str;
-		$.ajax({
-		url: "#", type: "GET", data: data1, cache: false,
-		success: function (res)
-			{
-		       	  alertify.success(res);
-		       	   location.reload();
-		     }
-		});
-		
-				} else {
-					alertify.error("You've clicked Cancel");
-				}
-			}, name);
-			return false;*/
-//}
-
 </script>
 <div class="wrapper">
   <!--\\\\\\\ wrapper Start \\\\\\-->
@@ -205,7 +173,7 @@ function deleteTodo(id)
         <div class="col-md-12">
           <div class="block-web" >
            <div class="header">
-            <div class="col-lg-1" style="float:right;margin-right:-2%;"> <button class="btn btn-default btn-icon" type="button"   onclick="addGroups('addnew','','')" style="float:right">
+            <div class="col-lg-1" style="float:right;margin-right:-2%;"> <button class="btn btn-default btn-icon" type="button"   onclick="addTask('addnew','','')" style="float:right">
              Add
             <i class="fa  fa-plus-circle"></i>
             </button> 
@@ -238,7 +206,7 @@ function deleteTodo(id)
              <td id="status@todo.getId" >@if(todo.getStatus==true){Complete}else {Pending} </td> 
               <td>
              
-              <a href="javascript:void(0);" onClick="addGroups('@todo.getId',this.name,'@todo.getDueDate')"  name ="@todo.getTodoLabel"   title="edit ToDo"><i class="fa fa-pencil" style="font-size:26px;"></i></a>
+              <a href="javascript:void(0);" onClick="addTask('@todo.getId',this.name,'@todo.getDueDate')"  name ="@todo.getTodoLabel"   title="edit ToDo"><i class="fa fa-pencil" style="font-size:26px;"></i></a>
               </td><td>
                <a href="javascript:void(0);" onClick= "deletConform(this.name)" name="@todo.getId" title="Delete todo item"><i class="fa fa-trash-o" style="font-size:26px;"></i></a>
                </td>
